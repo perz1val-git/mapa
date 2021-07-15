@@ -19,6 +19,7 @@
   "homepage": "https://github.com/perz1val-git/mapa#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "express-subdomain": "^1.0.5"
+    "mysql": "^2.18.1",
+    "vhost": "^3.0.2"
   }
 }

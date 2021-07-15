@@ -8,6 +8,7 @@ const app = express();
 app.use(vhost("api.mapa.local", api));
 
 app.use(express.static('public'));
+app.use("/images", express.static('public/images'));
 
 app.listen(3000, () => {
 	console.log("started listening");
