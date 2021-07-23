@@ -1,22 +1,16 @@
 (function () {
     'use strict';
 
-    // Browserify
-    // var L = require('leaflet');
-    // var corslite = require('corslite');
-    // var polyline = require('polyline');
-
     L.Routing = L.Routing || {};
 
-    L.Routing.OpenRouteService = L.Class.extend({
+    L.Routing.API = L.Class.extend({
         options: {
-            serviceUrl: 'https://api.openrouteservice.org/v2/directions/driving-car',
+            serviceUrl: '/route',
             timeout: 30 * 1000,
             urlParameters: {}
         },
 
-        initialize: function (apiKey, options) {
-            this._apiKey = apiKey;
+        initialize: function (options) {
             L.Util.setOptions(this, options);
         },
 
@@ -30,13 +24,12 @@
 
             options = options || {};
             url = this.buildRouteUrl(waypoints, options);
-            console.log('url', url);
 
             timer = setTimeout(function () {
                 timedOut = true;
                 callback.call(context || callback, {
                     status: -1,
-                    message: 'OpenRoueService request timed out.'
+                    message: 'Request request timed out.'
                 });
             }, this.options.timeout);
 
@@ -49,19 +42,19 @@
                 });
             }
 
-            corslite(url, L.bind(function (err, resp) {
+            $.get(url, L.bind(function (resp) {
                 var data;
 
                 clearTimeout(timer);
                 if (!timedOut) {
-                    if (!err) {
-                        // try {
-                        data = JSON.parse(resp.responseText);
-                        this._routeDone(data, wps, callback, context);
-                    } else {
+                    try {
+                        console.log(resp);
+                        //data = JSON.parse(resp);
+                        this._routeDone(resp, wps, callback, context);
+                    } catch {
                         callback.call(context || callback, {
                             status: -1,
-                            message: 'HTTP request failed: ' + err
+                            message: 'HTTP request failed'
                         });
                     }
                 }
@@ -149,18 +142,25 @@
         },
 
         buildRouteUrl: function (waypoints, options) {
-            var computeInstructions =
-                true,
+            var computeInstructions = true,
                 locs = [],
                 i,
                 baseUrl;
 
-            baseUrl = this.options.serviceUrl;
+            for (i = 0; i < waypoints.length; i++) {
+                locs.push(waypoints[i].latLng.lng + '%2C' + waypoints[i].latLng.lat);
+            }
+
+            baseUrl = this.options.serviceUrl + '?coordinates=' +
+                locs.join('%7C');
 
             return baseUrl + L.Util.getParamString(L.extend({
-                start: waypoints[0].latLng.lng + ',' + waypoints[0].latLng.lat,
-                end: waypoints[1].latLng.lng + ',' + waypoints[1].latLng.lat,
-                api_key: this._apiKey
+                instructions: true,
+                instructions_format: 'text',
+                geometry_format: 'geojson',
+                preference: 'recommended',
+                units: 'm',
+                profile: 'driving-car',
             }, this.options.urlParameters), baseUrl);
         },
 
@@ -174,10 +174,8 @@
         },
     });
 
-    L.Routing.openrouteservice = function (apiKey, options) {
-        return new L.Routing.OpenRouteService(apiKey, options);
+    L.Routing.api = function (options) {
+        return new L.Routing.API(options);
     };
 
-    // Browserify
-    // module.exports = L.Routing.OpenRouteService;
 })();

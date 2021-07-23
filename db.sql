@@ -1,11 +1,4 @@
-CREATE TABLE IF NOT EXISTS `system_calendar_entries` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `datetime_add` datetime NOT NULL,
-    `datetime_edit` datetime,
-    `date` date NOT NULL,
-    `name` text NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+CREATE TABLE IF NOT EXISTS `addresses` (`id` int(11) NOT NULL AUTO_INCREMENT, `datetime_add` datetime NOT NULL, `datetime_edit` datetime NULL, `town` text NOT NULL, `street` text NULL, `number` int(11) NOT NULL, `code` int(11) NOT NULL, `geoLat` int(11) NULL, `geoLang` int(11) NULL, `found` int(11) NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 ALTER TABLE `users`
     ADD `calendar_modify` tinyint(4) NOT NULL DEFAULT '0' AFTER `board_manage`;
