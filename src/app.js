@@ -1,5 +1,8 @@
+global.__base = __dirname;
+
 const express = require('express');
 const vhost = require('vhost');
+//const db = require('./models/database/db');
 
 const app = express();
 

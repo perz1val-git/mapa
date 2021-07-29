@@ -1,8 +1,14 @@
 const ordersRouter = require('express').Router();
 const address = require('./getAddresses');
+const db = require('../../models/database/db');
 
-ordersRouter.get('/', function (req, res) {
-	res.send('orrreded🚗')
+ordersRouter.get('/', async function (req, res) {
+	try{
+		res.send(await db.query('orders'));
+	}catch(err){
+		console.log(err);
+		res.status(401).send('Error');
+	}
 });
 
 ordersRouter.get('/address', function (req, res) {

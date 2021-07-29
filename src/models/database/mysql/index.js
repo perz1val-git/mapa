@@ -1,17 +1,16 @@
-var mysql = require('mysql');
+const dbPromisePool = require('./config').promise();
 
-var con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '693554311',
-    database: 'mapa'
-});
+module.exports = {
+    query: async (name) => {
+        const path = require('path');
+        const fs = require('fs');
+        const sqlFile = await fs.promises.readFile(path.join(__dirname, './sql/' + name + '.sql'));
+        const sql = await sqlFile.toString();
+        const [rows, fields] = await dbPromisePool.query(sql);
 
-con.connect(function (err) {
-    if (err) throw err;
-    console.log('Connected to mysql database');
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log('Table created');
-    });
-});
+        return rows;
+    },
+    sqlQuery: async (sql) => {
+        return dbPromisePool.query(sql);
+    }
+}
