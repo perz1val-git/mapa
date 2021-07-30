@@ -1,5 +1,3 @@
-const apikey = '5b3ce3597851110001cf62485d3b3c576a73420595830fb7bb9c1908';
-
 var map = L.map('mapid').setView([52.2, 21.0], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -9,11 +7,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
 }).addTo(map);
 
-var pointA = new L.LatLng(52.17394, 20.9116);
-var pointB = new L.LatLng(52.1904, 21.04743);
-
 const style = {
-    color: 'magenta',
+    color: 'Crimson',
     weight: 5,
     smoothFactor: 1,
 }
@@ -32,3 +27,7 @@ $.get('/transports/route', function (response) {
 
     map.fitBounds(line.getBounds());
 });
+
+var BB = '';
+
+$('#menu-container').load('/orders table');

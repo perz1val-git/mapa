@@ -1,29 +1,29 @@
 const ordersRouter = require('express').Router();
 const address = require('./getAddresses');
-const db = require('../../models/database/db');
+const ordersModel = require('../../models/orders')
 
 ordersRouter.get('/', async function (req, res) {
-	try{
-		res.send(await db.query('orders'));
-	}catch(err){
+	try {
+		orders = await ordersModel.getOrders();
+		res.set('Content-Type', 'text/html');
+		res.render('partials/orderlist', { orders: orders });
+	} catch (err) {
 		console.log(err);
-		res.status(401).send('Error');
+		res.status(500).send('Error');
 	}
 });
 
-ordersRouter.get('/address', function (req, res) {
-	const addresses = address.get();
-
-	addresses.then((result) => {
+// było na .then(), sprawdzić czy działa
+ordersRouter.get('/address', async function (req, res) {
+	try {
+		const addresses = await address.get();
 		res.type('json');
-		res.send(JSON.stringify(result, null, 4));
-		console.log(result['returned objects']);
-	}).catch((err) => {
+		res.send(JSON.stringify(addresses, null, 4));
+		console.log(addresses['returned objects']);
+	} catch(err) {
 		console.log(err);
-		res.status(401).send('Error');
-	})
+		res.status(500).send('Error');
+	}
 });
-
-ordersRouter.route('/get')
 
 module.exports = ordersRouter;

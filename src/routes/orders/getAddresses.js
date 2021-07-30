@@ -1,6 +1,6 @@
 const request = require('request');
 
-var address = {};
+const address = {};
 
 address.get = function () {
     const baseUrl = 'https://services.gugik.gov.pl/uug/?request=GetAddress&srid=4326&address=';

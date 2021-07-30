@@ -5,3 +5,17 @@ body {
 #mapid {
     height: 100vh;
 }
+
+table, table td, table th {
+    border: 1px solid black;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#menu-container {
+    background-color: slategrey;
+    overflow: auto;
+}

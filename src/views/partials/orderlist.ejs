@@ -1,0 +1,19 @@
+<table>
+    <tr>
+        <%_ for(let [key,value] of Object.entries(orders[0])){ _%>
+        <th>
+            <%= key %>
+        </th>
+        <%_ } _%>
+    </tr>
+    <%_ for(let order of orders){ _%>
+    <tr>
+        <%_ for(let [key,value] of Object.entries(order)){ if(key=='datetime_add' ){ value=new
+        Date(value).toLocaleDateString( 'pl-pl' , { year: 'numeric' , month: 'numeric' , day: 'numeric' } ) } _%>
+        <td>
+            <%= value %>
+        </td>
+        <%_ } _%>
+    </tr>
+    <%_ } _%>
+</table>
