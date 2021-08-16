@@ -1,29 +1,35 @@
 const ordersRouter = require('express').Router();
-const address = require('./getAddresses');
-const ordersModel = require('../../models/orders')
+const ordersModel = require('../../models/enities/orders');
 
-ordersRouter.get('/', async function (req, res) {
+ordersRouter.get('/', async (req, res) => {
 	try {
-		orders = await ordersModel.getOrders();
+		const orders = await ordersModel.getOrders();
+
 		res.set('Content-Type', 'text/html');
 		res.render('partials/orderlist', { orders: orders });
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 		res.status(500).send('Error');
 	}
 });
 
-// było na .then(), sprawdzić czy działa
-ordersRouter.get('/address', async function (req, res) {
+ordersRouter.get('/json', async (req, res) => {
 	try {
-		const addresses = await address.get();
+		const orders = await ordersModel.getOrders();
+
+		ordersModel.geocodeOrders();
+		
 		res.type('json');
-		res.send(JSON.stringify(addresses, null, 4));
-		console.log(addresses['returned objects']);
-	} catch(err) {
-		console.log(err);
+		res.send( orders );
+	} catch (err) {
+		console.error(err);
 		res.status(500).send('Error');
 	}
+});
+
+ordersRouter.get('/clearGeocode', async (req, res) => {
+	ordersModel.clearGeocode();
+	res.status(200).send('OK');
 });
 
 module.exports = ordersRouter;

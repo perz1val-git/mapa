@@ -1,19 +1,21 @@
 <table>
     <tr>
-        <%_ for(let [key,value] of Object.entries(orders[0])){ _%>
-        <th>
-            <%= key %>
-        </th>
-        <%_ } _%>
+        <th>Id</th>
+        <th>Adres</th>
+        <th>Trasa</th>
+        <th>Geokodowanie</th>
     </tr>
     <%_ for(let order of orders){ _%>
-    <tr>
-        <%_ for(let [key,value] of Object.entries(order)){ if(key=='datetime_add' ){ value=new
-        Date(value).toLocaleDateString( 'pl-pl' , { year: 'numeric' , month: 'numeric' , day: 'numeric' } ) } _%>
-        <td>
-            <%= value %>
-        </td>
-        <%_ } _%>
-    </tr>
+        <tr>
+            <td><%= order.id %></td>
+            <td>
+                <%= order.town %><br>
+                <%= order.street %><br>
+                <%= order.number %><br>
+                <%= order.postal_code %>
+            </td>
+            <td style="background-color: <%= order.color %>;"><%= order.transport %></td>
+            <td style="color: <%= order.geocode_status_color %>;" ><%= order.geocode_status_name %></td>
+        </tr>
     <%_ } _%>
 </table>

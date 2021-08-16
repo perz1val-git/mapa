@@ -1,0 +1,11 @@
+Oficjalna "dokumentacja":
+http://services.gugik.gov.pl/uug/opis.html
+
+request - typ zapytania
+
+dla: request = GetAddress:
+    address - adres: (Miejscowość Numer), (Miejscowość, Ulica Numer)
+    srid - jakaś geometria, wartość 4326, to normalne współrzędne
+    exact_number - prawdopodobnie czy musi się dokładnie zgadzać numer w adresie
+    accuracy - dokładność ???
+    limit - ile maksymalnie ma szukać wyników

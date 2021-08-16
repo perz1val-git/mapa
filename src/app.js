@@ -3,6 +3,14 @@ const vhost = require('vhost');
 const ejs = require('ejs');
 const expressLayouts = require('express-ejs-layouts');
 
+process.once('SIGUSR2', function () {
+    process.kill(process.pid, 'SIGUSR2');
+});
+
+process.on('SIGINT', function () {
+    process.kill(process.pid, 'SIGINT');
+});
+
 const app = express();
 
 app.set('layout', 'layout');
